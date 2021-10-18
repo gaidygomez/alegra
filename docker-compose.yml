@@ -1,0 +1,50 @@
+version: '3'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - 3000:3000
+    volumes:
+      - ./frontend:/app
+    command: sh -c "npm install && npm run dev"
+    links: 
+      - backend
+    networks:
+      - api
+
+  backend:
+    build:
+      context: ./backend
+    ports:
+      - 8000:80
+    volumes:
+      - ./backend:/var/www
+    working_dir: /var/www
+    depends_on:
+      - db
+    links:
+      - db
+    networks:
+      - api
+      - database
+
+  db:
+    image: mariadb
+    ports:
+      - 33061:3306
+    volumes:
+      - .db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: admin01.
+      MYSQL_DATABASE: backend
+    networks:
+      - database
+
+networks:
+  api:
+    driver: "bridge"
+
+  database:
+    driver: "bridge"
