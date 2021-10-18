@@ -1,4 +1,4 @@
-# alegra
+# Instrucciones de Ejecución
 Prueba de Backend Developer Gaidy Gomez
 
 Ejecutar `docker-compose up -d`
